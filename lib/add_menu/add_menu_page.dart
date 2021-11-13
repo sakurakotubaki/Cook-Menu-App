@@ -51,7 +51,11 @@ class AddMenuPage extends StatelessWidget {
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
-                  }, child: Text('追加する')),
+                  }, child: Text('追加する'),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black87, //ボタンの背景色
+                    ),
+                  ),
                 ],
               ),
             );

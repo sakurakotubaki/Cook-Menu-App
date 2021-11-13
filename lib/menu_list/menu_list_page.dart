@@ -44,6 +44,7 @@ class MenuListPage extends StatelessWidget {
         floatingActionButton:
           Consumer<MenuListModel>(builder: (context, model, child) {
             return FloatingActionButton(
+              backgroundColor: Colors.black87,
               // 非同期処理に変更する
               onPressed: () async {
                 // 画面遷移
