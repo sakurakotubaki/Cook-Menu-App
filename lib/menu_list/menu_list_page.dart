@@ -1,6 +1,7 @@
 import 'package:cook_menu/add_menu/add_menu_page.dart';
 import 'package:cook_menu/domain/menu.dart';
 import 'package:cook_menu/edit_menu/edit_menu_page.dart';
+import 'package:cook_menu/login/login_page.dart';
 import 'package:cook_menu/menu_list/menu_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -15,6 +16,21 @@ class MenuListPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('献立一覧'),
+          actions: [
+            IconButton(
+                onPressed: () async {
+                  // 画面遷移
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginPage(),
+                      // 下から画面が動いて次のページへ移動する↓
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
+                icon: Icon(Icons.person)),
+          ],
         ),
         body: Center(
           child: Consumer<MenuListModel>(builder: (context, model, child) {
@@ -35,7 +51,10 @@ class MenuListPage extends StatelessWidget {
                     // SlidableでListTileをラップして下の一行を書く↓
                     actionPane: SlidableDrawerActionPane(),
                     child: ListTile(
-                      leading: menu.imgURL != null ? Image.network(menu.imgURL!, cacheHeight: 250, cacheWidth: 250) :null,
+                      leading: menu.imgURL != null
+                          ? Image.network(menu.imgURL!,
+                              cacheHeight: 250, cacheWidth: 250)
+                          : null,
                       // Textウイジェット入れないと怒られる(例)Text(menu.title)
                       title: Text(menu.title),
                       subtitle: Text(menu.content),
@@ -125,7 +144,11 @@ class MenuListPage extends StatelessWidget {
   }
 
   // 削除のダイアログ関数をFuture型で作る
-  Future showConfirmDialog(BuildContext context, Menu menu,MenuListModel model,) {
+  Future showConfirmDialog(
+    BuildContext context,
+    Menu menu,
+    MenuListModel model,
+  ) {
     return showDialog(
       context: context,
       barrierDismissible: false,
