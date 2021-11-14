@@ -35,6 +35,7 @@ class MenuListPage extends StatelessWidget {
                     // SlidableでListTileをラップして下の一行を書く↓
                     actionPane: SlidableDrawerActionPane(),
                     child: ListTile(
+                      leading: menu.imgURL != null ? Image.network(menu.imgURL!, cacheHeight: 250, cacheWidth: 250) :null,
                       // Textウイジェット入れないと怒られる(例)Text(menu.title)
                       title: Text(menu.title),
                       subtitle: Text(menu.content),

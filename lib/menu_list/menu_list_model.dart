@@ -20,7 +20,8 @@ class MenuListModel extends ChangeNotifier {
       final String id = document.id;
       final String title = data['title'];
       final String content = data['content'];
-      return Menu(id, title, content);
+      final String? imgURL = data['imgURL'];
+      return Menu(id, title, content, imgURL);
     }).toList();
 
     // this.menus = の後に「menus」の変数が入ってなかったら、グルグルがずっと出る!
