@@ -17,9 +17,11 @@ class MenuListModel extends ChangeNotifier {
       // mapの中でmenusに変換する
       Map<String, dynamic> data =
       document.data() as Map<String, dynamic>;
+      // idはdocumentに入っている「更新、削除のときに必要」
+      final String id = document.id;
       final String title = data['title'];
       final String content = data['content'];
-      return Menu(title, content);
+      return Menu(id, title, content);
     }).toList();
 
     // this.menus = の後に「menus」の変数が入ってなかったら、グルグルがずっと出る!
