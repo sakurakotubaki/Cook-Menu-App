@@ -72,8 +72,9 @@ class MenuListPage extends StatelessWidget {
                         caption: '削除',
                         color: Colors.red,
                         icon: Icons.delete,
-                        onTap: () {
-                          // 削除しますか?って聞いて、はいだったら削除
+                        onTap: () async {
+                          // 削除しますか?って聞いて、はいだったら削除、modelを渡さないとエラー出る!
+                          await showConfirmDialog(context, menu, model);
                         },
                       ),
                     ],
@@ -119,6 +120,41 @@ class MenuListPage extends StatelessWidget {
           );
         }),
       ),
+    );
+  }
+
+  // 削除のダイアログ関数をFuture型で作る
+  Future showConfirmDialog(BuildContext context, Menu menu,MenuListModel model,) {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) {
+        return AlertDialog(
+          title: Text("削除の確認"),
+          content: Text("『${menu.title}』を削除しますか?"),
+          actions: [
+            TextButton(
+              child: Text("いいえ"),
+              onPressed: () => Navigator.pop(context),
+            ),
+            TextButton(
+              child: Text("はい"),
+              onPressed: () async {
+                // modelで削除、引数にmenuを渡す
+                await model.delete(menu);
+                Navigator.pop(context);
+                final snackBar = SnackBar(
+                  backgroundColor: Colors.black87,
+                  content: Text('${menu.title}を削除しました'),
+                );
+                // 画面更新を走らせないと行けないので追加
+                model.fetchMenuList();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

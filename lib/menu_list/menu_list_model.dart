@@ -10,13 +10,12 @@ class MenuListModel extends ChangeNotifier {
   void fetchMenuList() async {
     // 型がQuerySnapshot
     final QuerySnapshot snapshot =
-      await FirebaseFirestore.instance.collection('menus').get();
+        await FirebaseFirestore.instance.collection('menus').get();
 
     // さっき作ったMenuの型に変換したい
     final List<Menu> menus = snapshot.docs.map((DocumentSnapshot document) {
       // mapの中でmenusに変換する
-      Map<String, dynamic> data =
-      document.data() as Map<String, dynamic>;
+      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
       // idはdocumentに入っている「更新、削除のときに必要」
       final String id = document.id;
       final String title = data['title'];
@@ -25,7 +24,12 @@ class MenuListModel extends ChangeNotifier {
     }).toList();
 
     // this.menus = の後に「menus」の変数が入ってなかったら、グルグルがずっと出る!
-      this.menus = menus;
-      notifyListeners();
+    this.menus = menus;
+    notifyListeners();
+  }
+
+  // 削除する関数を追加
+  Future delete(Menu menu) {
+    return FirebaseFirestore.instance.collection('menus').doc(menu.id).delete();
   }
 }
