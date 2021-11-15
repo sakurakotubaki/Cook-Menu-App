@@ -3,6 +3,8 @@ import 'package:cook_menu/domain/menu.dart';
 import 'package:cook_menu/edit_menu/edit_menu_page.dart';
 import 'package:cook_menu/login/login_page.dart';
 import 'package:cook_menu/menu_list/menu_list_model.dart';
+import 'package:cook_menu/mypage/my_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -20,14 +22,28 @@ class MenuListPage extends StatelessWidget {
             IconButton(
                 onPressed: () async {
                   // 画面遷移
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                      // 下から画面が動いて次のページへ移動する↓
-                      fullscreenDialog: true,
-                    ),
-                  );
+                  if(FirebaseAuth.instance.currentUser != null) {
+                    print('ログインしている');
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyPage(),
+                        // 下から画面が動いて次のページへ移動する↓
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  } else {
+                    print('ログインしていない');
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                        // 下から画面が動いて次のページへ移動する↓
+                        fullscreenDialog: true,
+                      ),
+                    );
+                  }
+
                 },
                 icon: Icon(Icons.person)),
           ],

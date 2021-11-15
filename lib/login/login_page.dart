@@ -39,6 +39,7 @@ class LoginPage extends StatelessWidget {
                           // notifyListeners();をここで呼ぶ!
                           model.setPassword(text);
                         },
+                        obscureText: true,
                       ),
                       SizedBox(height: 16),
                       ElevatedButton(
