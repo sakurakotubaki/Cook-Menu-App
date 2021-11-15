@@ -1,3 +1,4 @@
+import 'package:cook_menu/edit_profile/edit_profile_page.dart';
 import 'package:cook_menu/mypage/my_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,24 @@ class MyPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('マイページ'),
+          actions: [
+          Consumer<MyModel>(builder: (context, model, child) {
+                return IconButton(
+                    onPressed: () async {
+                      // 画面遷移
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EditProfilePage(model.name!, model.description!),
+                          ),
+                        );
+                        model.fetchUser();
+                    },
+                    icon: Icon(Icons.edit),
+                );
+              }
+            ),
+          ],
         ),
         body: Center(
           child: Consumer<MyModel>(builder: (context, model, child) {
@@ -20,12 +39,12 @@ class MyPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        '名前',
+                        model.name ?? '名前なし',
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
                       Text(model.email ?? 'メールアドレスなし'),
-                      Text('自己紹介...'),
+                      Text(model.description ?? '自己紹介なし'),
                       TextButton(
                         onPressed: () async {
                           // ログアウト
